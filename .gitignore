@@ -127,3 +127,4 @@ packages/contracts/deployments
 
 # misc
 .DS_Store
+.envrc

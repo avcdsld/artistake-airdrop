@@ -19,15 +19,16 @@ declare global {
 export const HomeTemplate: React.FC = () => {
   const [connectWallet, account] = useWallet();
   const [totalNumber, setTotalNumber] = React.useState("");
-  const [max, setMax] = React.useState("2222");
+  const [max, setMax] = React.useState("9999");
   const nftContractWithSigner = useNFT();
 
   const mint = async () => {
-    const value = ethers.utils.parseEther("0.08").toString();
+    const value = ethers.utils.parseEther("0.0").toString();
     await nftContractWithSigner.buy(1, { value: value });
   };
 
-  const random = Math.floor(Math.random() * 2222).toString();
+  // const random = Math.floor(Math.random() * 2222).toString();
+  const random = '1';
 
   React.useEffect(() => {
     // const data = [
@@ -43,9 +44,27 @@ export const HomeTemplate: React.FC = () => {
     //     blockExplorerUrls: ["https://polygonscan.com/"],
     //   },
     // ];
-    // if(window.ethereum){
-    //   window.ethereum.request({ method: "wallet_addEthereumChain", params: data });
-    // }
+    const data = [
+      {
+        chainId: "0x13881",
+        chainName: "Matic Mumbai-Testnet",
+        nativeCurrency: {
+          name: "Matic",
+          symbol: "Matic",
+          decimals: 18,
+        },
+        rpcUrls: [
+          "https://rpc-mumbai.matic.today",
+          "https://matic-mumbai.chainstacklabs.com",
+          "https://rpc-mumbai.maticvigil.com",
+          "https://matic-testnet-archive-rpc.bwarelabs.com",
+        ],
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+      },
+    ];
+    if(window.ethereum){
+      window.ethereum.request({ method: "wallet_addEthereumChain", params: data });
+    }
     const nftContract = getNFTContract();
     nftContract.totalSupply().then((supply: number) => {
       setTotalNumber(supply.toString());
@@ -60,7 +79,7 @@ export const HomeTemplate: React.FC = () => {
       <Header></Header>
       <div className="py-4">
         <Heading align="center" as="h1" size="3xl">
-          NFT Template
+          ArtiStake NFT Giveaway
         </Heading>
       </div>
       <div className="pb-4">
@@ -73,7 +92,7 @@ export const HomeTemplate: React.FC = () => {
         <div className="m-auto">
           <div className="pb-5">
             <Heading align="center" as="h2" size="xl">
-              Purchase here
+              Claim here
             </Heading>
           </div>
           <div className="pb-5">
