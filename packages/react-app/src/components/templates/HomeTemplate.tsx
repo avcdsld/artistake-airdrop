@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter, faDiscord } from "@fortawesome/free-brands-svg-icons";
 import { ethers } from "ethers";
 
 import { useWallet } from "../../hooks/useWallet";
@@ -95,7 +97,7 @@ export const HomeTemplate: React.FC = () => {
   return (
     <>
       <Header></Header>
-      <div className="main">
+      <div className="main mb-8">
         <div className="py-4 mt-8" style={{fontSize: '1.8em'}}>
           <Heading align="center" as="h1" size="3xl">
             ArtiStake Thanks Fracton Incubation 2021 NFT
@@ -173,6 +175,20 @@ export const HomeTemplate: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <footer className={`w-full bg-marimo-1 px-8`}>
+        <div style={{ textAlign: "center", padding: 50 }} className="flex items-center justify-center text-white">
+          <a href="https://artistake.tokyo/" target="_blank" rel="noreferrer"className="pr-2 pl-2">
+            <img className="h-11 mr-3" src="/assets/logo.png" alt="ArtiStake" />
+          </a>
+          <a href="https://twitter.com/ArtiStake_" target="_blank" rel="noreferrer"className="pr-2 pl-2">
+            <FontAwesomeIcon color="white" style={{ padding: 10, fontSize: 50 }} icon={faTwitter} />
+          </a>
+          <a href="https://discord.gg/pfHvpb8QFB" target="_blank" rel="noreferrer" className="pr-2 pl-2">
+            <FontAwesomeIcon color="white p-10" style={{ padding: 10, fontSize: 50 }} icon={faDiscord} />
+          </a>
+        </div>
+      </footer>
     </>
   );
 };
