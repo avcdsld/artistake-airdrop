@@ -20,11 +20,21 @@ export const HomeTemplate: React.FC = () => {
   const [connectWallet, account] = useWallet();
   const [totalNumber, setTotalNumber] = React.useState("");
   const [max, setMax] = React.useState("9999");
+  const [isLoading, setLoading] = React.useState(false);
+  const [txHash, setTxHash] = React.useState(null);
   const nftContractWithSigner = useNFT();
 
   const mint = async () => {
-    const value = ethers.utils.parseEther("0.0").toString();
-    await nftContractWithSigner.buy(1, { value: value });
+    try {
+      setLoading(true);
+      const value = ethers.utils.parseEther("0.0").toString();
+      const tx = await nftContractWithSigner.buy(1, { value: value });
+      setTxHash(tx.hash);
+      alert("After some time, please check the asset in OpenSea mypage.");
+      await tx.wait();
+    } finally {
+      setLoading(false);
+    }
   };
 
   // const random = Math.floor(Math.random() * 2222).toString();
@@ -128,10 +138,19 @@ export const HomeTemplate: React.FC = () => {
                     connectWallet
                   </Button>
                 ) : (
-                  <Button onClick={mint} color="pink" rounded={true} className="mb-8">
-                    mint
+                  <Button onClick={mint} color="pink" rounded={true} className="mb-8" disabled={isLoading}>
+                    {isLoading ? 'sending..' : 'mint'}
                   </Button>
                 )}
+                {txHash ? (
+                  <div className="pb-5">
+                    <a href={"https://polygonscan.com/tx/" + txHash} target="_blank" rel="noreferrer">
+                      <Text align="center" size="2xl" className="underline">
+                        View Tx on Polygonscan
+                      </Text>
+                    </a>
+                  </div>
+                ) : null}
               </>
             )}
           </div>
