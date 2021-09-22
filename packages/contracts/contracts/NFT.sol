@@ -18,7 +18,7 @@ contract NFT is Context, ERC721Enumerable, ERC721Burnable, ERC721Pausable, Ownab
 
     Counters.Counter private _tokenIdTracker;
 
-    string private _baseTokenURI;
+    string private _metadataURI;
     uint256 public constant MAX_ELEMENTS = 9999;
     uint256 public constant MAX_PURCHASE = 1;
     uint256 public constant price = 0; // 0 ETH
@@ -26,13 +26,13 @@ contract NFT is Context, ERC721Enumerable, ERC721Burnable, ERC721Pausable, Ownab
     constructor(
         string memory name,
         string memory symbol,
-        string memory baseTokenURI
+        string memory metadataURI
     ) ERC721(name, symbol) {
-        _baseTokenURI = baseTokenURI;
+        _metadataURI = metadataURI;
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
-        return _baseTokenURI;
+        return _metadataURI;
     }
 
     function _beforeTokenTransfer(
@@ -73,5 +73,14 @@ contract NFT is Context, ERC721Enumerable, ERC721Burnable, ERC721Pausable, Ownab
     function withdraw() public onlyOwner {
         uint256 balance = address(this).balance;
         payable(msg.sender).transfer(balance);
+    }
+
+    function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
+        require(_exists(tokenId));
+        return _metadataURI;
+    }
+
+    function updateMetadataURI(string memory metadataURI) public onlyOwner {
+        _metadataURI = metadataURI;
     }
 }

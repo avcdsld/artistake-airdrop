@@ -5,7 +5,8 @@ const func = async (hre: any) => {
   await deploy("NFT", {
     from: deployer,
     // args: ["NFT Title", "SYMBOL", "url"],
-    args: ["ArtiStake NFT", "ARTI", "https://ipfs.fleek.co/ipfs/QmR3ZHgFW74Jyqe5q5SfB1T5BwDLUxyakdN3BwwsDmRX1i/"],
+    // args: ["ArtiStake ARTIST NFT", "ARTI", "https://ipfs.fleek.co/ipfs/bafybeiexsh7jzsvcqgbmbkblfjqzhotgrb2jmp7nbqsmxqvw63p3yoqfi4"],
+    args: ["ArtiStake THANKS NFT", "ATHX", "https://ipfs.fleek.co/ipfs/bafybeig2qnac7pkhnhbawatlybl7ss4iu5fcctmjrgayrvzu34gwseyuzq"],
     log: true,
   });
 };
