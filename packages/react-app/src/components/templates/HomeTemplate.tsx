@@ -32,7 +32,8 @@ export const HomeTemplate: React.FC = () => {
       setTxHash(tx.hash);
       alert("After some time, please check the asset in OpenSea mypage.");
       await tx.wait();
-    } finally {
+      setLoading(false);
+    } catch(e) {
       setLoading(false);
     }
   };
@@ -40,8 +41,33 @@ export const HomeTemplate: React.FC = () => {
   // const random = Math.floor(Math.random() * 2222).toString();
   const random = '1';
 
+  const explorerUrlPrefix = process.env.NODE_ENV === "development"
+    ? "https://mumbai.polygonscan.com/tx/"
+    : "https://polygonscan.com/tx/";
+
+  const openseaMypageUrl = process.env.NODE_ENV === "development"
+    ? "https://testnets.opensea.io/account"
+    : "https://opensea.io/account";
+
   React.useEffect(() => {
-    const data = [
+    const data = process.env.NODE_ENV === "development" ? [
+      {
+        chainId: "0x13881",
+        chainName: "Matic Mumbai-Testnet",
+        nativeCurrency: {
+          name: "Matic",
+          symbol: "Matic",
+          decimals: 18,
+        },
+        rpcUrls: [
+          "https://rpc-mumbai.matic.today",
+          "https://matic-mumbai.chainstacklabs.com",
+          "https://rpc-mumbai.maticvigil.com",
+          "https://matic-testnet-archive-rpc.bwarelabs.com",
+        ],
+        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+      },
+    ] : [
       {
         chainId: "0x89",
         chainName: "Matic Network",
@@ -54,24 +80,6 @@ export const HomeTemplate: React.FC = () => {
         blockExplorerUrls: ["https://polygonscan.com/"],
       },
     ];
-    // const data = [
-    //   {
-    //     chainId: "0x13881",
-    //     chainName: "Matic Mumbai-Testnet",
-    //     nativeCurrency: {
-    //       name: "Matic",
-    //       symbol: "Matic",
-    //       decimals: 18,
-    //     },
-    //     rpcUrls: [
-    //       "https://rpc-mumbai.matic.today",
-    //       "https://matic-mumbai.chainstacklabs.com",
-    //       "https://rpc-mumbai.maticvigil.com",
-    //       "https://matic-testnet-archive-rpc.bwarelabs.com",
-    //     ],
-    //     blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-    //   },
-    // ];
     if(window.ethereum){
       window.ethereum.request({ method: "wallet_addEthereumChain", params: data });
     }
@@ -143,14 +151,23 @@ export const HomeTemplate: React.FC = () => {
                   </Button>
                 )}
                 {txHash ? (
-                  <div className="pb-5">
-                    <a href={"https://polygonscan.com/tx/" + txHash} target="_blank" rel="noreferrer">
-                      <Text align="center" size="2xl" className="underline">
-                        View Tx on Polygonscan
-                      </Text>
-                    </a>
-                  </div>
-                ) : null}
+                  <>
+                    <div className="pb-5">
+                      <a href={explorerUrlPrefix + txHash} target="_blank" rel="noreferrer">
+                        <Text align="center" size="2xl" className="underline">
+                          View Tx on Polygonscan
+                        </Text>
+                      </a>
+                    </div>
+                    <div className="pb-5">
+                      <a href={openseaMypageUrl} target="_blank" rel="noreferrer">
+                        <Text align="center" size="2xl" className="underline">
+                          Open OpenSea MyPage
+                        </Text>
+                      </a>
+                    </div>
+                  </>
+              ) : null}
               </>
             )}
           </div>
