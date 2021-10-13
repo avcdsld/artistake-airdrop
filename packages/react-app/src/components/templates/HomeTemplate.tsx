@@ -11,6 +11,8 @@ import { Heading } from "../atoms/Heading";
 import { Text } from "../atoms/Text";
 import { Button } from "../atoms/Button";
 import { getNFTContract } from "../../lib/web3";
+import { analytics } from "../../firebase_config";
+import { logEvent } from "firebase/analytics";
 
 declare global {
   interface Window {
@@ -28,14 +30,21 @@ export const HomeTemplate: React.FC = () => {
 
   const mint = async () => {
     try {
+      logEvent(analytics, "mint_click");
       setLoading(true);
       const value = ethers.utils.parseEther("0.0").toString();
       const tx = await nftContractWithSigner.buy(1, { value: value });
       setTxHash(tx.hash);
+      logEvent(analytics, "mint_executed");
       alert("After some time, please check the asset in OpenSea mypage.");
       await tx.wait();
       setLoading(false);
     } catch(e) {
+      if (String(e.message).includes("denied")) {
+        logEvent(analytics, "mint_cancel");
+      } else {
+        logEvent(analytics, "mint_error");
+      }
       setLoading(false);
     }
   };
