@@ -109,13 +109,14 @@ export const HomeTemplate: React.FC = () => {
       <div className="main mb-8">
         <div className="py-4 mt-8" style={{fontSize: '1.8em'}}>
           <Heading align="center" as="h1" size="3xl">
-            ArtiStake Thanks Fracton Incubation 2021 NFT
+            ArtiStake Community NFT
           </Heading>
         </div>
         <div className="pb-4">
           <Text align="center">
-            This is Fracton Incubation 2021 Memorial NFT to thank everyone who supports ArtiStake! <br/>
-            This is an interactive generative art NFT. Please enjoy it with your mouse movenment!</Text>
+            This is ArtiStake Community NFT! <br />
+            This is an interactive generative art NFT. Please enjoy it with your mouse movenment!
+          </Text>
         </div>
         <div className="grid lg:grid-cols-2 lg:p-10">
           <div className="p-2">
